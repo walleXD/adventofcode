@@ -1,15 +1,19 @@
-import { OpCode, run, Instruction } from '../src/alu'
+import { OpCode, run, Instruction, Register } from '../src/alu'
 
 describe('alu', () => {
   describe('op code', () => {
     describe('eql', () => {
-      it('should be eql', () => {
-        const program: Instruction[] = [
-          [OpCode.eql, 'w', 0],
-          [OpCode.eql, 'y', 1],
-          [OpCode.eql, 'y', 0]
-        ]
+      let program: Instruction[]
 
+      beforeAll(() => {
+        program = [
+          [OpCode.eql, Register.w, 0],
+          [OpCode.eql, Register.y, 1],
+          [OpCode.eql, Register.y, 2]
+        ]
+      })
+
+      it('should be eql', () => {
         const state = {
           w: 0,
           x: 0,
@@ -32,8 +36,10 @@ describe('alu', () => {
           y: 1,
           z: 0
         })
+      })
 
-        const result3 = run(program[2], result2)
+      it('not eql', () => {
+        const result3 = run(program[2])
         expect(result3).toEqual({
           w: 0,
           x: 0,

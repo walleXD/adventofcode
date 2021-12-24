@@ -1,17 +1,3 @@
-export interface AluState {
-  w: number
-  x: number
-  y: number
-  z: number
-}
-
-const initialState: AluState = {
-  w: 0,
-  x: 0,
-  y: 0,
-  z: 0
-}
-
 export enum OpCode {
   inp = 'inp',
   add = 'add',
@@ -21,9 +7,28 @@ export enum OpCode {
   eql = 'eql'
 }
 
-export type Registers = 'w' | 'x' | 'y' | 'z'
+export enum Register {
+  w = 'w',
+  x = 'x',
+  y = 'y',
+  z = 'z'
+}
 
-export type Instruction = [OpCode, Registers, number | Registers]
+export interface AluState {
+  [Register.w]: number
+  [Register.x]: number
+  [Register.y]: number
+  [Register.z]: number
+}
+
+export type Instruction = [OpCode, Register, Register | number | undefined]
+
+const initialState: AluState = {
+  w: 0,
+  x: 0,
+  y: 0,
+  z: 0
+}
 
 export const run = (
   [opcode, a, b]: Instruction,
@@ -31,9 +36,8 @@ export const run = (
 ): AluState => {
   switch (opcode) {
     case OpCode.eql: {
-      const bVal = typeof b !== 'number' ? state[b] : b
-
-      const isEql = state[a] === bVal
+      const isEql =
+        state[a] === (b !== undefined && typeof b !== 'number' ? state[b] : b)
       return { ...state, [a]: isEql ? 1 : 0 }
     }
 
