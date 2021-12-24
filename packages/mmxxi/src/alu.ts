@@ -23,7 +23,7 @@ export interface AluState {
 
 export type Instruction = [OpCode, Register, Register | number | undefined]
 
-const initialState: AluState = {
+export const initialState: AluState = {
   w: 0,
   x: 0,
   y: 0,
