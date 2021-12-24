@@ -105,6 +105,19 @@ export const execute = (
       return { ...state, [a]: result }
     }
 
+    case OpCode.mod: {
+      if (b === undefined) {
+        throw new Error('add instruction requires a second operand')
+      }
+      const bVal = typeof b !== 'number' ? state[b] : b
+
+      if (bVal === 0 || bVal > state[a]) {
+        return { ...state, [a]: 0 }
+      }
+
+      const result = state[a] % bVal
+      return { ...state, [a]: result }
+    }
     default:
       return state
   }

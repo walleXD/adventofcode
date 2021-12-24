@@ -202,6 +202,53 @@ describe('alu', () => {
         expect(state).toEqual({ ...initialState, w: 2 })
       })
     })
+
+    describe('mod', () => {
+      let program: Instruction[]
+      let state: AluState
+
+      beforeAll(() => {
+        program = [
+          [OpCode.add, Register.w, 4],
+          [OpCode.mod, Register.w, 2],
+          [OpCode.add, Register.y, 5],
+          [OpCode.add, Register.x, 2],
+          [OpCode.mod, Register.y, Register.x],
+          [OpCode.mod, Register.x, Register.w]
+        ]
+      })
+
+      it('simple', () => {
+        state = executeProgram(program, initialState, 0, 1)
+
+        expect(state).toEqual({
+          ...initialState,
+          w: 0
+        })
+      })
+
+      it('mod registers', () => {
+        state = executeProgram(program, state, 2, 4)
+
+        expect(state).toEqual({
+          ...initialState,
+          w: 0,
+          x: 2,
+          y: 1
+        })
+      })
+
+      it('mod by zero', () => {
+        state = executeProgram(program, state, 5)
+
+        expect(state).toEqual({
+          ...initialState,
+          w: 0,
+          y: 1,
+          x: 0
+        })
+      })
+    })
   })
 
   describe('execute program', () => {
