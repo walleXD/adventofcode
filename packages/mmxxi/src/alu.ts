@@ -1,4 +1,5 @@
 import { recurse, Trampoline, trampolined, value } from './utils'
+import prompt from 'readline-sync'
 
 export enum OpCode {
   /**
@@ -66,6 +67,11 @@ export const execute = (
   state: AluState = initialState
 ): AluState => {
   switch (opcode) {
+    case OpCode.inp: {
+      const aVal = prompt.questionInt(`Enter value for ${a}: `)
+
+      return { ...state, [a]: aVal }
+    }
     case OpCode.eql: {
       const isEql =
         state[a] === (b !== undefined && typeof b !== 'number' ? state[b] : b)
