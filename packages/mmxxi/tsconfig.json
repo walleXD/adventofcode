@@ -9,5 +9,5 @@
     "transpileOnly": true,
     "transpiler": "ts-node/transpilers/swc-experimental"
   },
-  "include": ["./src/**/*.ts", "tests/**/*.ts"]
+  "include": ["./src/**/*.ts", "./tests/**/*.ts"]
 }
