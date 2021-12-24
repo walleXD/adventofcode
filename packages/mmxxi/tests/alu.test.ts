@@ -1,6 +1,6 @@
 import {
   OpCode,
-  run,
+  execute,
   Instruction,
   Register,
   AluState,
@@ -24,7 +24,7 @@ describe('alu', () => {
       })
 
       it('should be eql', () => {
-        state = run(program[0], state)
+        state = execute(program[0], state)
         expect(state).toEqual({
           w: 1,
           x: 0,
@@ -32,7 +32,7 @@ describe('alu', () => {
           z: 0
         })
 
-        state = run(program[1], state)
+        state = execute(program[1], state)
         expect(state).toEqual({
           w: 1,
           x: 0,
@@ -42,12 +42,118 @@ describe('alu', () => {
       })
 
       it('not eql', () => {
-        state = run(program[2])
+        state = execute(program[2])
         expect(state).toEqual({
           w: 0,
           x: 0,
           y: 0,
           z: 0
+        })
+      })
+    })
+
+    describe('add', () => {
+      let program: Instruction[]
+      let state: AluState
+
+      beforeAll(() => {
+        program = [
+          [OpCode.add, Register.w, Register.x],
+          [OpCode.add, Register.y, Register.z],
+          [OpCode.add, Register.y, 1],
+          [OpCode.add, Register.z, 1],
+          [OpCode.add, Register.y, Register.z]
+        ]
+
+        state = initialState
+      })
+
+      it('add avles to register', () => {
+        state = execute(program[0], state)
+        expect(state).toEqual({
+          w: 0,
+          x: 0,
+          y: 0,
+          z: 0
+        })
+
+        state = execute(program[1], state)
+        expect(state).toEqual({
+          w: 0,
+          x: 0,
+          y: 0,
+          z: 0
+        })
+
+        state = execute(program[2], state)
+        expect(state).toEqual({
+          w: 0,
+          x: 0,
+          y: 1,
+          z: 0
+        })
+
+        state = execute(program[3], state)
+        expect(state).toEqual({
+          w: 0,
+          x: 0,
+          y: 1,
+          z: 1
+        })
+      })
+
+      it('add two registers', () => {
+        state = execute(program[4], state)
+        expect(state).toEqual({
+          w: 0,
+          x: 0,
+          y: 2,
+          z: 1
+        })
+      })
+    })
+
+    describe('mul', () => {
+      let program: Instruction[]
+      let state: AluState
+
+      beforeAll(() => {
+        program = [
+          [OpCode.add, Register.w, 1],
+          [OpCode.add, Register.x, 1],
+          [OpCode.mul, Register.w, 10],
+          [OpCode.mul, Register.x, 10],
+          [OpCode.mul, Register.x, Register.w]
+        ]
+
+        state = initialState
+      })
+
+      it('mul basics', () => {
+        state = execute(program[0], state)
+        state = execute(program[1], state)
+        state = execute(program[2], state)
+
+        expect(state).toEqual({
+          ...initialState,
+          x: 1,
+          w: 10
+        })
+
+        state = execute(program[3], state)
+        expect(state).toEqual({
+          ...initialState,
+          x: 10,
+          w: 10
+        })
+      })
+
+      it('multiply registers', () => {
+        state = execute(program[4], state)
+        expect(state).toEqual({
+          ...initialState,
+          x: 100,
+          w: 10
         })
       })
     })
