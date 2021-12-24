@@ -1,0 +1,37 @@
+{
+  "name": "adventofcode",
+  "private": true,
+  "scripts": {
+    "bootstrap": "npx lerna bootstrap",
+    "bootstrap:ci": "npx lerna bootstrap --ci",
+    "bootstrap:init": "npm run bootstrap && npm run hook:prepare",
+    "lint": "eslint . --ext .js,.ts,.tsx,.ate --quiet",
+    "lint:fix": "npm run lint:js -- --fix",
+    "check:pkgs": "npx syncpack",
+    "hook:add": "husky add",
+    "hook:prepare": "husky install",
+    "hook:pre-commit": "lint-staged",
+    "hook:commit-msg": "commitlint --edit $1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "15.0.0",
+    "@commitlint/config-conventional": "15.0.0",
+    "@commitlint/config-lerna-scopes": "15.0.0",
+    "@typescript-eslint/eslint-plugin": "5.8.0",
+    "commitlint": "15.0.0",
+    "eslint": "8.5.0",
+    "eslint-config-standard-with-typescript": "21.0.1",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-promise": "6.0.0",
+    "husky": "7.0.4",
+    "lerna": "4.0.0",
+    "lint-staged": "12.1.3",
+    "prettier": "2.5.1",
+    "prettier-config-standard": "4.0.0",
+    "syncpack": "5.8.15",
+    "typescript": "4.5.4",
+    "zx": "4.2.0"
+  }
+}
