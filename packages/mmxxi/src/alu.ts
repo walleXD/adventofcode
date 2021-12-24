@@ -39,12 +39,14 @@ export enum Register {
   z = 'z'
 }
 
-export interface AluState {
+export interface AluStateRaw {
   [Register.w]: number
   [Register.x]: number
   [Register.y]: number
   [Register.z]: number
 }
+
+export type AluState = Readonly<AluStateRaw>
 
 export type Instruction = Readonly<
   [OpCode, Register, Register | number | undefined]
@@ -86,9 +88,38 @@ export const execute = (
       return { ...state, [a]: result }
     }
 
+    case OpCode.div: {
+      if (b === undefined) {
+        throw new Error('add instruction requires a second operand')
+      }
+
+      const bVal = typeof b !== 'number' ? state[b] : b
+
+      if (bVal === 0 || bVal > state[a]) {
+        return { ...state, [a]: 0 }
+      }
+
+      const result = state[a] / bVal
+      return { ...state, [a]: result }
+    }
+
     default:
       return state
   }
 }
+
+// export const executeProgram = (
+//   program: Instruction[],
+//   counter = 0,
+//   state: AluState = initialState
+// ) => {
+//   const nextState = execute(program[counter], state)
+
+//   if (counter === program.length - 1) {
+//     return nextState
+//   }
+
+//   return executeProgram(program, counter + 1, nextState)
+// }
 
 export const alu = (program: Instruction[]): void => {}

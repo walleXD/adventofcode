@@ -157,5 +157,48 @@ describe('alu', () => {
         })
       })
     })
+
+    describe('divide', () => {
+      let program: Instruction[]
+      let state: AluState
+
+      beforeAll(() => {
+        program = [
+          [OpCode.add, Register.w, 4],
+          [OpCode.add, Register.x, 1],
+          [OpCode.div, Register.w, 2],
+          [OpCode.div, Register.x, 100],
+          [OpCode.div, Register.x, Register.w]
+        ]
+
+        state = initialState
+      })
+
+      it('div basics', () => {
+        state = execute(program[0], state)
+        state = execute(program[1], state)
+        state = execute(program[2], state)
+
+        expect(state).toEqual({
+          ...initialState,
+          x: 1,
+          w: 2
+        })
+      })
+
+      it('divide by larged denominator', () => {
+        state = execute(program[3], state)
+        expect(state).toEqual({
+          ...initialState,
+          x: 0,
+          w: 2
+        })
+      })
+
+      it('divide by zero', () => {
+        state = execute(program[4], state)
+        expect(state).toEqual({ ...initialState, w: 2 })
+      })
+    })
   })
 })
