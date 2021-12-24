@@ -113,16 +113,19 @@ export const execute = (
 const createExecuteProgram = (
   program: Instruction[],
   state: AluState = initialState,
-  counter = 0
+  counter = 0,
+  endCounter?: number
 ): Trampoline<AluState> => {
   const nextState = execute(program[counter], state)
 
-  return counter < program.length - 1
-    ? recurse(() => createExecuteProgram(program, nextState, counter + 1))
+  return counter < (endCounter ?? program.length - 1)
+    ? recurse(() =>
+        createExecuteProgram(program, nextState, counter + 1, endCounter)
+      )
     : value(nextState)
 }
 
-const executeProgram = trampolined(createExecuteProgram)
+export const executeProgram = trampolined(createExecuteProgram)
 
 export const runAlu = (
   program: Instruction[],

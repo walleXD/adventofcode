@@ -1,11 +1,12 @@
-import { runAlu } from './../src/alu'
 import {
   OpCode,
   execute,
   Instruction,
   Register,
   AluState,
-  initialState
+  initialState,
+  executeProgram,
+  runAlu
 } from '@/alu'
 
 describe('alu', () => {
@@ -221,6 +222,16 @@ describe('alu', () => {
       state = runAlu(program)
 
       expect(state).toEqual({ ...initialState, w: 2 })
+    })
+
+    it('can start and stop executing from specific points in program', () => {
+      state = executeProgram(program, initialState, 0, 1)
+
+      expect(state).toEqual({
+        ...initialState,
+        w: 4,
+        x: 1
+      })
     })
   })
 })
