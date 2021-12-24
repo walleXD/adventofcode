@@ -1,6 +1,7 @@
 {
   "name": "adventofcode",
   "private": true,
+  "license": "GPL-3.0",
   "scripts": {
     "bootstrap": "npx lerna bootstrap",
     "bootstrap:ci": "npx lerna bootstrap --ci",
