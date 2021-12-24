@@ -137,7 +137,7 @@ export const execute = (
 }
 
 const createExecuteProgram = (
-  program: Instruction[],
+  program: Program,
   state: AluState = initialState,
   counter = 0,
   endCounter?: number
@@ -153,8 +153,26 @@ const createExecuteProgram = (
 
 export const executeProgram = trampolined(createExecuteProgram)
 
+export type Program = Readonly<Instruction[]>
+
+export const convertTextToProgram = (text: string): Program =>
+  text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
+    .map((line) => [...line.split(' ')])
+    .map<Instruction>(([opcode, a, b]) => {
+      return [
+        opcode as OpCode,
+        a as Register,
+        ...((b !== undefined
+          ? [isNaN(parseInt(b, 10)) ? (b as Register) : parseInt(b, 10)]
+          : []) as [Register | number | undefined])
+      ]
+    })
+
 export const runAlu = (
-  program: Instruction[],
+  program: Program,
   state: AluState = initialState
 ): AluState => executeProgram(program, state)
 

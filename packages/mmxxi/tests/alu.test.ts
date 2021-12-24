@@ -7,7 +7,8 @@ import {
   AluState,
   initialState,
   executeProgram,
-  runAlu
+  runAlu,
+  convertTextToProgram
 } from '@/alu'
 
 describe('alu', () => {
@@ -272,6 +273,42 @@ describe('alu', () => {
           y: 1,
           x: 0
         })
+      })
+    })
+  })
+
+  describe('text', () => {
+    beforeAll(() => {
+      prompt.questionInt = jest.fn().mockReturnValue(55)
+    })
+
+    it('convert text program to instructions', () => {
+      const rawProgram = `
+      inp x
+      mul x -1
+    `
+
+      const instructions = convertTextToProgram(rawProgram)
+
+      expect(instructions.length).toEqual(2)
+      expect(instructions[0]).toEqual([OpCode.inp, Register.x])
+    })
+
+    it('execute program from text', () => {
+      const rawProgram = `
+        inp z
+        inp x
+        mul z 3
+        eql z x
+      `
+
+      const instructions = convertTextToProgram(rawProgram)
+      const state = runAlu(instructions)
+
+      expect(state).toEqual({
+        ...initialState,
+        x: 55,
+        z: 0
       })
     })
   })
