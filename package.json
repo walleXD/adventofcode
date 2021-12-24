@@ -12,7 +12,8 @@
     "hook:add": "husky add",
     "hook:prepare": "husky install",
     "hook:pre-commit": "lint-staged",
-    "hook:commit-msg": "commitlint --edit $1"
+    "hook:commit-msg": "commitlint --edit $1",
+    "test": "npx lerna run test --stream"
   },
   "devDependencies": {
     "@commitlint/cli": "15.0.0",
