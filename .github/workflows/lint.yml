@@ -1,0 +1,55 @@
+name: Lint PR
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches:
+      - main
+jobs:
+  code:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get node version
+        run: |
+          echo "name=PROJECT_NODE_VERSION=$(cat $GITHUB_WORKSPACE/.nvmrc)" >> $GITHUB_ENV
+      
+      - name: Setup Node.js version ${{ env.PROJECT_NODE_VERSION }}
+        uses: actions/setup-node@v2.5.0
+        with:
+          node-version: ${{ env.PROJECT_NODE_VERSION }}
+
+      - name: Install Dependencies
+        run: npm run bootstrap:ci
+
+      - name: Run Linter
+        run: npm run lint
+
+  title:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: amannn/action-semantic-pull-request@v3.4.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  packages:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get node version
+        run: |
+          echo "name=PROJECT_NODE_VERSION=$(cat $GITHUB_WORKSPACE/.nvmrc)" >> $GITHUB_ENV
+      
+      - name: Setup Node.js version ${{ env.PROJECT_NODE_VERSION }}
+        uses: actions/setup-node@v2.5.0
+        with:
+          node-version: ${{ env.PROJECT_NODE_VERSION }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Check package consistency
+        run: npm run check:pkgs
