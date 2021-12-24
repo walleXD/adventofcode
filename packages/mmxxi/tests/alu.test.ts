@@ -1,3 +1,4 @@
+import prompt from 'readline-sync'
 import {
   OpCode,
   execute,
@@ -11,6 +12,30 @@ import {
 
 describe('alu', () => {
   describe('op code', () => {
+    describe('inp', () => {
+      let program: Instruction[]
+      let state: AluState
+
+      beforeAll(() => {
+        program = [[OpCode.inp, Register.w, 0]]
+
+        state = initialState
+
+        prompt.questionInt = jest.fn().mockReturnValue(42)
+      })
+
+      it('should prompt for input', () => {
+        state = executeProgram(program, state)
+
+        expect(state).toEqual({
+          ...initialState,
+          w: 42
+        })
+
+        expect(prompt.questionInt).toHaveBeenCalledTimes(1)
+      })
+    })
+
     describe('eql', () => {
       let program: Instruction[]
       let state: AluState
