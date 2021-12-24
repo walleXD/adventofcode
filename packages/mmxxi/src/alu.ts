@@ -62,6 +62,10 @@ export const initialState: AluState = {
   z: 0
 }
 
+export const extractValue = (state: AluState, b: Register | number): number => {
+  return typeof b !== 'number' ? state[b] : b
+}
+
 export const execute = (
   [opcode, a, b]: Instruction,
   state: AluState = initialState
@@ -72,9 +76,10 @@ export const execute = (
 
       return { ...state, [a]: aVal }
     }
+
     case OpCode.eql: {
-      const isEql =
-        state[a] === (b !== undefined && typeof b !== 'number' ? state[b] : b)
+      const isEql = state[a] === (b !== undefined && extractValue(state, b))
+
       return { ...state, [a]: isEql ? 1 : 0 }
     }
 
@@ -83,8 +88,10 @@ export const execute = (
         throw new Error('add instruction requires a second operand')
       }
 
-      const result = state[a] + (typeof b !== 'number' ? state[b] : b)
-      return { ...state, [a]: result }
+      return {
+        ...state,
+        [a]: state[a] + extractValue(state, b)
+      }
     }
 
     case OpCode.mul: {
@@ -92,8 +99,10 @@ export const execute = (
         throw new Error('add instruction requires a second operand')
       }
 
-      const result = state[a] * (typeof b !== 'number' ? state[b] : b)
-      return { ...state, [a]: result }
+      return {
+        ...state,
+        [a]: state[a] * extractValue(state, b)
+      }
     }
 
     case OpCode.div: {
@@ -101,28 +110,26 @@ export const execute = (
         throw new Error('add instruction requires a second operand')
       }
 
-      const bVal = typeof b !== 'number' ? state[b] : b
+      const bVal = extractValue(state, b)
 
       if (bVal === 0 || bVal > state[a]) {
         return { ...state, [a]: 0 }
       }
 
-      const result = state[a] / bVal
-      return { ...state, [a]: result }
+      return { ...state, [a]: state[a] / bVal }
     }
 
     case OpCode.mod: {
       if (b === undefined) {
         throw new Error('add instruction requires a second operand')
       }
-      const bVal = typeof b !== 'number' ? state[b] : b
+      const bVal = extractValue(state, b)
 
       if (bVal === 0 || bVal > state[a]) {
         return { ...state, [a]: 0 }
       }
 
-      const result = state[a] % bVal
-      return { ...state, [a]: result }
+      return { ...state, [a]: state[a] % bVal }
     }
     default:
       return state
