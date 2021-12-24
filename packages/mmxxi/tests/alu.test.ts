@@ -5,7 +5,7 @@ import {
   Register,
   AluState,
   initialState
-} from '../src/alu'
+} from '@/alu'
 
 describe('alu', () => {
   describe('op code', () => {

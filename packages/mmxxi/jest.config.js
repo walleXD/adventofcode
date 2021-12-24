@@ -7,7 +7,7 @@ const config = {
     '^.+\\.(t|j)sx?$': ['@swc/jest']
   },
   moduleNameMapper: {
-    '^@forgescript/(.*)$': '<rootDir>/src/modules/$1'
+    '^@/(.*)$': '<rootDir>/src/$1'
   },
   testMatch: ['<rootDir>/{src,tests}/**/*.{spec,test}.ts']
 }
