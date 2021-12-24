@@ -1,4 +1,4 @@
-import { executeProgram } from './../src/alu'
+import { runAlu } from './../src/alu'
 import {
   OpCode,
   execute,
@@ -218,7 +218,7 @@ describe('alu', () => {
     })
 
     it('execute list of instructions', () => {
-      state = executeProgram(program)
+      state = runAlu(program)
 
       expect(state).toEqual({ ...initialState, w: 2 })
     })

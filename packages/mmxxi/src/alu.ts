@@ -110,23 +110,23 @@ export const execute = (
   }
 }
 
-export const executeProgram = (
+const createExecuteProgram = (
+  program: Instruction[],
+  state: AluState = initialState,
+  counter = 0
+): Trampoline<AluState> => {
+  const nextState = execute(program[counter], state)
+
+  return counter < program.length - 1
+    ? recurse(() => createExecuteProgram(program, nextState, counter + 1))
+    : value(nextState)
+}
+
+const executeProgram = trampolined(createExecuteProgram)
+
+export const runAlu = (
   program: Instruction[],
   state: AluState = initialState
-): AluState => {
-  const createProgramExecutor = (
-    program: Instruction[],
-    state: AluState = initialState,
-    counter = 0
-  ): Trampoline<AluState> => {
-    const nextState = execute(program[counter], state)
-
-    return counter < program.length - 1
-      ? recurse(() => createProgramExecutor(program, nextState, counter + 1))
-      : value(nextState)
-  }
-
-  return trampolined(createProgramExecutor)(program, state)
-}
+): AluState => executeProgram(program, state)
 
 export const alu = (program: Instruction[]): void => {}
