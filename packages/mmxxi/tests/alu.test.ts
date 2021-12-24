@@ -1,3 +1,4 @@
+import { executeProgram } from './../src/alu'
 import {
   OpCode,
   execute,
@@ -199,6 +200,27 @@ describe('alu', () => {
         state = execute(program[4], state)
         expect(state).toEqual({ ...initialState, w: 2 })
       })
+    })
+  })
+
+  describe('execute program', () => {
+    let program: Instruction[]
+    let state: AluState
+
+    beforeAll(() => {
+      program = [
+        [OpCode.add, Register.w, 4],
+        [OpCode.add, Register.x, 1],
+        [OpCode.div, Register.w, 2],
+        [OpCode.div, Register.x, 100],
+        [OpCode.div, Register.x, Register.w]
+      ]
+    })
+
+    it('execute list of instructions', () => {
+      state = executeProgram(program)
+
+      expect(state).toEqual({ ...initialState, w: 2 })
     })
   })
 })

@@ -1,3 +1,5 @@
+import { recurse, Trampoline, trampolined, value } from './utils'
+
 export enum OpCode {
   /**
    * `inp a` - Read an input value and write it
@@ -46,7 +48,7 @@ export interface AluStateRaw {
   [Register.z]: number
 }
 
-export type AluState = Readonly<AluStateRaw>
+export interface AluState extends Readonly<AluStateRaw> {}
 
 export type Instruction = Readonly<
   [OpCode, Register, Register | number | undefined]
@@ -108,18 +110,23 @@ export const execute = (
   }
 }
 
-// export const executeProgram = (
-//   program: Instruction[],
-//   counter = 0,
-//   state: AluState = initialState
-// ) => {
-//   const nextState = execute(program[counter], state)
+export const executeProgram = (
+  program: Instruction[],
+  state: AluState = initialState
+): AluState => {
+  const createProgramExecutor = (
+    program: Instruction[],
+    state: AluState = initialState,
+    counter = 0
+  ): Trampoline<AluState> => {
+    const nextState = execute(program[counter], state)
 
-//   if (counter === program.length - 1) {
-//     return nextState
-//   }
+    return counter < program.length - 1
+      ? recurse(() => createProgramExecutor(program, nextState, counter + 1))
+      : value(nextState)
+  }
 
-//   return executeProgram(program, counter + 1, nextState)
-// }
+  return trampolined(createProgramExecutor)(program, state)
+}
 
 export const alu = (program: Instruction[]): void => {}
