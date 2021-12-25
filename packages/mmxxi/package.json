@@ -5,9 +5,9 @@
   "description": "2021 advent of code",
   "main": "dist/index.js",
   "scripts": {
-    "dev:run": "nodemon --exec node --require ts-node/register --require tsconfig-paths/register --require dotenv/config src/index.ts",
+    "dev:run": "nodemon --exec node --require ts-node/register --require tsconfig-paths/register",
     "dev": "concurrently npm:typecheck:watch npm:dev:run --raw",
-    "debug": "nodemon --exec node --inspect-brk=0.0.0.0:9229 --require ts-node/register --require tsconfig-paths/register --require dotenv/config src/index.ts",
+    "debug": "nodemon --exec node --inspect-brk=0.0.0.0:9229 --require ts-node/register --require tsconfig-paths/register",
     "add": "npx lerna add --scope=mmxxi",
     "add:dev": "npx lerna add -D --scope=mmxxi",
     "build:": "tsc -b",
@@ -22,6 +22,7 @@
     "@swc/jest": "0.2.12",
     "@theomessin/ts-builder": "^0.1.8",
     "@types/debug": "4.1.7",
+    "@types/fill-range": "^7.0.0",
     "@types/jest": "27.0.3",
     "@types/moo": "^0.5.5",
     "@types/node": "16.11.12",
@@ -39,6 +40,7 @@
   "keywords": [],
   "author": "",
   "dependencies": {
+    "fill-range": "^7.0.1",
     "readline-sync": "^1.4.10"
   }
 }

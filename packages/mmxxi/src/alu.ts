@@ -68,11 +68,15 @@ export const extractValue = (state: AluState, b: Register | number): number => {
 
 export const execute = (
   [opcode, a, b]: Instruction,
-  state: AluState = initialState
+  state: AluState = initialState,
+  inputFn?: () => number
 ): AluState => {
   switch (opcode) {
     case OpCode.inp: {
-      const aVal = prompt.questionInt(`Enter value for ${a}: `)
+      const aVal =
+        inputFn !== undefined
+          ? inputFn()
+          : prompt.questionInt(`Enter value for ${a}: `)
 
       return { ...state, [a]: aVal }
     }
@@ -112,11 +116,7 @@ export const execute = (
 
       const bVal = extractValue(state, b)
 
-      if (bVal === 0 || bVal > state[a]) {
-        return { ...state, [a]: 0 }
-      }
-
-      return { ...state, [a]: state[a] / bVal }
+      return { ...state, [a]: (state[a] / bVal) | 0 }
     }
 
     case OpCode.mod: {
@@ -125,11 +125,7 @@ export const execute = (
       }
       const bVal = extractValue(state, b)
 
-      if (bVal === 0 || bVal > state[a]) {
-        return { ...state, [a]: 0 }
-      }
-
-      return { ...state, [a]: state[a] % bVal }
+      return { ...state, [a]: state[a] % bVal | 0 }
     }
     default:
       return state
@@ -177,3 +173,8 @@ export const runAlu = (
 ): AluState => executeProgram(program, state)
 
 export const alu = (program: Instruction[]): void => {}
+
+export const run = (text: string): AluState => {
+  const program = convertTextToProgram(text)
+  return runAlu(program)
+}

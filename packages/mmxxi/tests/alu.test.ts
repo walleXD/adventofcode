@@ -8,8 +8,10 @@ import {
   initialState,
   executeProgram,
   runAlu,
-  convertTextToProgram
+  convertTextToProgram,
+  run
 } from '@/alu'
+import MONAD from './fixtures/alu'
 
 describe('alu', () => {
   describe('op code', () => {
@@ -311,6 +313,28 @@ describe('alu', () => {
         z: 0
       })
     })
+
+    it('convert decimal to binary', () => {
+      prompt.questionInt = jest.fn().mockReturnValue(5)
+
+      const rawProgram = `
+        inp w
+        add z w
+        mod z 2
+        div w 2
+        add y w
+        mod y 2
+        div w 2
+        add x w
+        mod x 2
+        div w 2
+        mod w 2
+      `
+
+      const state = run(rawProgram)
+
+      console.log(state)
+    })
   })
 
   describe('execute program', () => {
@@ -341,6 +365,16 @@ describe('alu', () => {
         w: 4,
         x: 1
       })
+    })
+  })
+
+  describe('MONAD', () => {
+    it('run `MONAD` with static input', () => {
+      prompt.questionInt = jest.fn().mockReturnValue(5)
+
+      const state = run(MONAD)
+
+      expect(state.z).toBeGreaterThan(0)
     })
   })
 })
