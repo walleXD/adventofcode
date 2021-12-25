@@ -3,7 +3,10 @@
   "compilerOptions": {
     "baseUrl": "src",
     "outDir": "dist",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "ts-node": {
     "transpileOnly": true,
