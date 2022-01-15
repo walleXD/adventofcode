@@ -28,7 +28,7 @@
     "@types/node": "16.11.19",
     "@types/readline-sync": "1.4.4",
     "concurrently": "6.5.1",
-    "fp-ts": "2.11.6",
+    "fp-ts": "2.11.7",
     "jest": "27.4.7",
     "nodemon": "2.0.15",
     "regenerator-runtime": "0.13.9",
