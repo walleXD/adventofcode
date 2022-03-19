@@ -25,7 +25,7 @@
     "@types/fill-range": "7.0.0",
     "@types/jest": "27.4.1",
     "@types/moo": "0.5.5",
-    "@types/node": "16.11.24",
+    "@types/node": "16.11.26",
     "@types/readline-sync": "1.4.4",
     "concurrently": "6.5.1",
     "fp-ts": "2.11.9",
