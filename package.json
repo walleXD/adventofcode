@@ -16,11 +16,11 @@
     "test": "npx lerna run test --stream"
   },
   "devDependencies": {
-    "@commitlint/cli": "15.0.0",
-    "@commitlint/config-conventional": "15.0.0",
-    "@commitlint/config-lerna-scopes": "15.0.0",
+    "@commitlint/cli": "17.0.2",
+    "@commitlint/config-conventional": "17.0.2",
+    "@commitlint/config-lerna-scopes": "17.0.2",
     "@typescript-eslint/eslint-plugin": "5.8.0",
-    "commitlint": "15.0.0",
+    "commitlint": "17.0.2",
     "eslint": "8.5.0",
     "eslint-config-standard-with-typescript": "21.0.1",
     "eslint-plugin-import": "2.25.4",
