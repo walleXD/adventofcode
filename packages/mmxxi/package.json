@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@swc/core": "1.2.159",
-    "@swc/helpers": "0.3.2",
+    "@swc/helpers": "0.4.14",
     "@swc/jest": "0.2.15",
     "@theomessin/ts-builder": "0.1.8",
     "@types/debug": "4.1.7",
