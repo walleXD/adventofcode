@@ -19,7 +19,7 @@
   "devDependencies": {
     "@swc/core": "1.2.159",
     "@swc/helpers": "0.3.2",
-    "@swc/jest": "0.2.15",
+    "@swc/jest": "0.2.24",
     "@theomessin/ts-builder": "0.1.8",
     "@types/debug": "4.1.7",
     "@types/fill-range": "7.0.0",
