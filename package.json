@@ -19,7 +19,7 @@
     "@commitlint/cli": "15.0.0",
     "@commitlint/config-conventional": "15.0.0",
     "@commitlint/config-lerna-scopes": "15.0.0",
-    "@typescript-eslint/eslint-plugin": "5.8.0",
+    "@typescript-eslint/eslint-plugin": "5.62.0",
     "commitlint": "15.0.0",
     "eslint": "8.5.0",
     "eslint-config-standard-with-typescript": "21.0.1",
