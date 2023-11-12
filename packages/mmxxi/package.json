@@ -21,7 +21,7 @@
     "@swc/helpers": "0.3.2",
     "@swc/jest": "0.2.15",
     "@theomessin/ts-builder": "0.1.8",
-    "@types/debug": "4.1.7",
+    "@types/debug": "4.1.12",
     "@types/fill-range": "7.0.0",
     "@types/jest": "27.4.1",
     "@types/moo": "0.5.5",
