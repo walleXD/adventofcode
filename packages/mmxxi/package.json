@@ -31,7 +31,7 @@
     "fp-ts": "2.11.9",
     "jest": "27.5.1",
     "nodemon": "2.0.15",
-    "regenerator-runtime": "0.13.9",
+    "regenerator-runtime": "0.14.1",
     "ts-node": "10.5.0",
     "tsconfig-paths": "3.12.0",
     "tslib": "2.3.1",
